@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Snake (by Rinidh)</title>
+  </head>
+
+  <body>
+    <div class="container">
+      <canvas id="gameCanvas" height="300px" width="300px"></canvas>
+    </div>
+
+    <style>
+      body {
+        all: unset;
+      }
+
+      .container {
+        display: flex;
+        height: 100vh;
+        align-items: center;
+        justify-content: center;
+      }
+    </style>
+  </body>
+
+  <script>
+    const gameCanvas = document.getElementById("gameCanvas");
+    const ctx = gameCanvas.getContext("2d");
+
+    ctx.fillStyle = "#f0f0f0";
+    ctx.fillRect(0, 0, gameCanvas.width, gameCanvas.height);
+
+    ctx.strokeStyle = "black";
+    ctx.strokeRect(0, 0, gameCanvas.width, gameCanvas.height);
+  </script>
+</html>
