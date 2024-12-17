@@ -100,6 +100,40 @@
     }
     main();
 
+    function changeDirection(event) {
+      const key = event.keyCode;
+
+      //globally fixed key codes for all pcs
+      const LEFT_KEY = 37;
+      const UP_KEY = 38;
+      const RIGHT_KEY = 39;
+      const DOWN_KEY = 40;
+
+      const isGoingRight = dx === 10; //when snake is going to right, it's horizontal speed, dx will be +10
+      const isGoingLeft = dx === -10;
+      const isGoingUp = dy === -10;
+      const isGoingDown = dy === 10;
+
+      if (key === LEFT_KEY && !isGoingRight) {
+        dx = -10;
+        dy = 0;
+      }
+      if (key === UP_KEY && !isGoingDown) {
+        dx = 0;
+        dy = -10;
+      }
+      if (key === RIGHT_KEY && !isGoingLeft) {
+        dx = 10;
+        dy = 0;
+      }
+      if (key === DOWN_KEY && !isGoingUp) {
+        dx = 0;
+        dy = 10;
+      }
+    }
+
+    document.addEventListener("keydown", changeDirection);
+
     moveToRightBtn.addEventListener("click", () => {
       moveToRightBtn.dataset.stopSnake = "true";
     });
