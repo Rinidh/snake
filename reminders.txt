@@ -1,1 +1,2 @@
-why .pop() never worked?
+function randomTen(min, max) {  return Math.round((Math.random() * (max-min) + min) / 10) * 10;}
+function createFood() {  foodX = randomTen(0, gameCanvas.width - 10);  foodY = randomTen(0, gameCanvas.height - 10); }

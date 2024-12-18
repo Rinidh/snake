@@ -9,7 +9,7 @@
   <body>
     <div class="container">
       <canvas id="gameCanvas" height="300px" width="300px"></canvas>
-      <button id="move-to-right-btn">Stop snake</button>
+      <button id="demo-button">Demo button</button>
     </div>
 
     <style>
@@ -27,8 +27,8 @@
   </body>
 
   <script>
-    const moveToRightBtn = document.querySelector("#move-to-right-btn");
-    moveToRightBtn.dataset.stopSnake = false;
+    const demoButton = document.querySelector("#demo-button");
+    demoButton.dataset.stopSnake = false;
 
     const CANVAS_BACKGROUND_COLOR = "#f0f0f0";
     const CANVAS_STROKE_COLOR = "black";
@@ -36,6 +36,8 @@
     const SNAKE_BORDER_COLOR = "darkgreen";
     let dx = 10;
     let dy = 0; //+10 to move down
+    let foodX;
+    let foodY;
 
     const gameCanvas = document.getElementById("gameCanvas");
     const ctx = gameCanvas.getContext("2d");
@@ -87,7 +89,7 @@
     }
 
     function main() {
-      if (moveToRightBtn.dataset.stopSnake === "true") return;
+      if (demoButton.dataset.stopSnake === "true") return;
 
       setTimeout(function onTick() {
         clearCanvas();
@@ -98,7 +100,7 @@
         main();
       }, 100);
     }
-    main();
+    // main();
 
     function changeDirection(event) {
       const key = event.keyCode;
@@ -134,8 +136,35 @@
 
     document.addEventListener("keydown", changeDirection);
 
-    moveToRightBtn.addEventListener("click", () => {
-      moveToRightBtn.dataset.stopSnake = "true";
+    function randomTen(min, max) {
+      const numberBetweenMinAndMax = Math.random() * (max - min) + min;
+      const roundedToNearestTens = Math.round(numberBetweenMinAndMax / 10) * 10;
+      return roundedToNearestTens;
+    }
+
+    function createFood() {
+      foodX = randomTen(10, gameCanvas.width - 10);
+      foodY = randomTen(10, gameCanvas.height - 10);
+
+      snake.forEach(function (snakePart) {
+        const foodIsOnSnake = snakePart.x === foodX && snakePart.y === foodY;
+
+        if (foodIsOnSnake) createFood(); //if food coordinates are same as any snakePart's location,  rerun the function
+      });
+    }
+
+    function drawFood() {
+      ctx.fillStyle = "orange";
+      ctx.fillRect(foodX, foodY, 10, 10);
+      console.log(foodX, foodY);
+
+      ctx.strokeStyle = "red";
+      ctx.strokeRect(foodX, foodY, 10, 10);
+    }
+
+    demoButton.addEventListener("click", () => {
+      createFood();
+      drawFood();
     });
   </script>
 </html>
