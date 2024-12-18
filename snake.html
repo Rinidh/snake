@@ -8,6 +8,7 @@
 
   <body>
     <div class="container">
+      <div id="score">0</div>
       <canvas id="gameCanvas" height="300px" width="300px"></canvas>
       <button id="demo-button">Demo button</button>
     </div>
@@ -19,9 +20,18 @@
 
       .container {
         display: flex;
+        flex-direction: column;
         height: 100vh;
         align-items: center;
         justify-content: center;
+      }
+
+      #score {
+        margin: 30px;
+        height: 15vh;
+        display: flex;
+        align-items: center;
+        font: bolder normal 70px "Times New Roman";
       }
     </style>
   </body>
@@ -38,9 +48,11 @@
     let dy = 0; //+10 to move down
     let foodX;
     let foodY;
+    let score = 0;
 
     const gameCanvas = document.getElementById("gameCanvas");
     const ctx = gameCanvas.getContext("2d");
+    const scoreBoard = document.getElementById("score");
 
     function clearCanvas() {
       // ctx.clearRect(0, 0, gameCanvas.width - 10, gameCanvas.height - 10);
@@ -87,6 +99,9 @@
 
       const didEatFood = foodX === head.x && foodY === head.y;
       if (didEatFood) {
+        score += 10;
+        scoreBoard.textContent = score;
+
         createFood();
         drawFood();
       } else {
