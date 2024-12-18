@@ -85,7 +85,13 @@
 
       snake.unshift(head);
 
-      snake.pop();
+      const didEatFood = foodX === head.x && foodY === head.y;
+      if (didEatFood) {
+        createFood();
+        drawFood();
+      } else {
+        snake.pop();
+      }
     }
 
     function main() {
@@ -94,8 +100,8 @@
       setTimeout(function onTick() {
         clearCanvas();
         advanceSnake();
+        drawFood();
         drawSnake();
-        console.log("tick");
 
         main();
       }, 100);
@@ -143,6 +149,7 @@
     }
 
     function createFood() {
+      //just assigns new coordinates of food, making sure food is not on same location as a snake part
       foodX = randomTen(10, gameCanvas.width - 10);
       foodY = randomTen(10, gameCanvas.height - 10);
 
@@ -162,9 +169,7 @@
       ctx.strokeRect(foodX, foodY, 10, 10);
     }
 
-    demoButton.addEventListener("click", () => {
-      createFood();
-      drawFood();
-    });
+    createFood();
+    drawFood();
   </script>
 </html>
