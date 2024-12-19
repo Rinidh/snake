@@ -44,6 +44,7 @@
     const CANVAS_STROKE_COLOR = "black";
     const SNAKE_COLOR = "lightgreen";
     const SNAKE_BORDER_COLOR = "darkgreen";
+    const GAME_SPEED = 800;
     let dx = 10;
     let dy = 0; //+10 to move down
     let foodX;
@@ -111,6 +112,7 @@
 
     function main() {
       if (demoButton.dataset.stopSnake === "true") return;
+      if (didGameEnd()) return;
 
       setTimeout(function onTick() {
         clearCanvas();
@@ -119,9 +121,9 @@
         drawSnake();
 
         main();
-      }, 100);
+      }, GAME_SPEED);
     }
-    // main();
+    main();
 
     function changeDirection(event) {
       const key = event.keyCode;
@@ -178,13 +180,39 @@
     function drawFood() {
       ctx.fillStyle = "orange";
       ctx.fillRect(foodX, foodY, 10, 10);
-      console.log(foodX, foodY);
 
       ctx.strokeStyle = "red";
       ctx.strokeRect(foodX, foodY, 10, 10);
     }
 
-    createFood();
-    drawFood();
+    // createFood();
+    // drawFood();
+
+    function didGameEnd() {
+      for (i = 4; i < snake.length; i++) {
+        //we start from i=4 coz snake part indexed 4 ie the 5th part is the closest part the snake can touch upon curling up the closest
+        const isHeadTouchingBody =
+          snake[0].x === snake[i].x && snake[0].y === snake[i].y;
+
+        if (isHeadTouchingBody) return true;
+      }
+
+      const isTouchingLeftWall = snake[0].x < 0;
+      const isTouchingRightWall = snake[0].x > gameCanvas.width - 20; //without minus 20, the head would first pass thru the wall, then game would end; but we want game to end when head immediately touches
+      const isTouchingTopWall = snake[0].y < 0;
+      const isTouchingBottomWall = snake[0].y > gameCanvas.height - 20;
+
+      if (
+        isTouchingBottomWall ||
+        isTouchingTopWall ||
+        isTouchingRightWall ||
+        isTouchingLeftWall
+      )
+        return true;
+    }
+
+    demoButton.addEventListener("click", () => {
+      demoButton.dataset.stopSnake = "true";
+    });
   </script>
 </html>
