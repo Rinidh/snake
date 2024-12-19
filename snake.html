@@ -18,6 +18,7 @@
           <p>High Score</p>
           <div id="high-score">0</div>
         </div>
+        <div id="game-over">GAME OVER</div>
       </div>
       <canvas id="gameCanvas" height="300px" width="300px"></canvas>
       <button id="demo-button">Demo button</button>
@@ -31,6 +32,19 @@
 
       p {
         all: unset;
+      }
+
+      h1 {
+        text-align: center;
+        font-family: Tahoma, sans-serif;
+        font-weight: bolder;
+      }
+
+      a {
+        color: rgb(62, 62, 62);
+      }
+      a:hover {
+        text-decoration: none;
       }
 
       .container {
@@ -47,6 +61,7 @@
         border: 4px solid rgb(160, 160, 160);
         display: flex;
         flex-direction: row;
+        position: relative;
       }
 
       .score-container {
@@ -88,17 +103,14 @@
         border-left: 4px solid rgb(160, 160, 160);
       }
 
-      h1 {
-        text-align: center;
-        font-family: Tahoma, sans-serif;
-        font-weight: bolder;
-      }
-
-      a {
-        color: rgb(62, 62, 62);
-      }
-      a:hover {
-        text-decoration: none;
+      #game-over {
+        position: absolute;
+        top: 200px;
+        left: 25px;
+        padding: 40px 20px;
+        background-color: rgba(212, 212, 212, 0.6);
+        border: 2px solid rgb(160, 160, 160);
+        font: bolder normal 35px "Tahoma";
       }
     </style>
   </body>
@@ -106,6 +118,8 @@
   <script>
     const demoButton = document.querySelector("#demo-button");
     demoButton.dataset.stopSnake = false;
+    const gameOver = document.querySelector("#game-over");
+    gameOver.style.display = "none";
 
     const CANVAS_BACKGROUND_COLOR = "#f0f0f0";
     const CANVAS_STROKE_COLOR = "black";
@@ -188,7 +202,7 @@
       if (demoButton.dataset.stopSnake === "true") return;
       if (didGameEnd()) {
         if (score > highScore) localStorage.setItem("highScore", score);
-
+        gameOver.style.display = "block";
         return;
       }
 
