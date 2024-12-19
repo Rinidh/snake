@@ -21,7 +21,7 @@
         <div id="game-over">GAME OVER</div>
       </div>
       <canvas id="gameCanvas" height="300px" width="300px"></canvas>
-      <button id="demo-button">Demo button</button>
+      <button id="restart-button">Restart</button>
     </div>
 
     <style>
@@ -112,16 +112,29 @@
         border: 2px solid rgb(160, 160, 160);
         font: bolder normal 35px "Tahoma";
       }
+
+      #restart-button {
+        margin-top: 20px;
+        padding: 15px;
+        font-size: 20px;
+        background-color: rgb(240, 240, 240);
+        color: black;
+        transition: all 100ms;
+      }
+      #restart-button:hover {
+        background-color: rgb(97, 97, 97);
+        color: white;
+      }
     </style>
   </body>
 
   <script>
-    const demoButton = document.querySelector("#demo-button");
-    demoButton.dataset.stopSnake = false;
+    const restartButton = document.querySelector("#restart-button");
+    restartButton.dataset.stopSnake = false;
     const gameOver = document.querySelector("#game-over");
     gameOver.style.display = "none";
 
-    const CANVAS_BACKGROUND_COLOR = "#f0f0f0";
+    const CANVAS_BACKGROUND_COLOR = "#f0f0f0"; //rgb(240, 240, 240)
     const CANVAS_STROKE_COLOR = "black";
     const SNAKE_COLOR = "lightgreen";
     const SNAKE_BORDER_COLOR = "darkgreen";
@@ -133,6 +146,7 @@
     let score = 0;
     let highScore = localStorage.getItem("highScore");
     let isChangingDirection = false;
+    let isGameEnded = false;
 
     const gameCanvas = document.getElementById("gameCanvas");
     const ctx = gameCanvas.getContext("2d");
@@ -154,7 +168,7 @@
     }
     clearCanvas();
 
-    const snake = [
+    let snake = [
       { x: 150, y: 150 },
       { x: 140, y: 150 },
       { x: 130, y: 150 },
@@ -199,7 +213,6 @@
     }
 
     function main() {
-      if (demoButton.dataset.stopSnake === "true") return;
       if (didGameEnd()) {
         if (score > highScore) localStorage.setItem("highScore", score);
         gameOver.style.display = "block";
@@ -289,7 +302,10 @@
         const isHeadTouchingBody =
           snake[0].x === snake[i].x && snake[0].y === snake[i].y;
 
-        if (isHeadTouchingBody) return true;
+        if (isHeadTouchingBody) {
+          isGameEnded = true;
+          return true;
+        }
       }
 
       const isTouchingLeftWall = snake[0].x < 0;
@@ -302,12 +318,28 @@
         isTouchingTopWall ||
         isTouchingRightWall ||
         isTouchingLeftWall
-      )
+      ) {
+        isGameEnded = true;
         return true;
+      }
     }
 
-    demoButton.addEventListener("click", () => {
-      demoButton.dataset.stopSnake = "true";
+    function restartGame() {
+      snake = [
+        { x: 150, y: 150 },
+        { x: 140, y: 150 },
+        { x: 130, y: 150 },
+        { x: 120, y: 150 },
+        { x: 110, y: 150 },
+      ];
+      score = 0;
+      gameOver.style.display = "none";
+      isGameEnded = false;
+      setTimeout(main, 500);
+    }
+
+    restartButton.addEventListener("click", () => {
+      if (isGameEnded) restartGame();
     });
   </script>
 </html>
