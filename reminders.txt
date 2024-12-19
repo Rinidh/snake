@@ -1,2 +1,6 @@
-arrange the code eg snake, const BACK_COLOR etc
+heading
+set high scores
+game over
+restarting game
 increase speed with score
+arrange the code eg snake, const BACK_COLOR etc

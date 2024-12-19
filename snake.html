@@ -7,8 +7,18 @@
   </head>
 
   <body>
+    <h1>Snake Game (by <a href="https://github.com/Rinidh">Rinidh</a>)</h1>
     <div class="container">
-      <div id="score">0</div>
+      <div class="all-scores-container">
+        <div class="score-container">
+          <p>Score:</p>
+          <div id="score">0</div>
+        </div>
+        <div class="high-score-container">
+          <p>High Score</p>
+          <div id="high-score">0</div>
+        </div>
+      </div>
       <canvas id="gameCanvas" height="300px" width="300px"></canvas>
       <button id="demo-button">Demo button</button>
     </div>
@@ -16,22 +26,79 @@
     <style>
       body {
         all: unset;
+        color: rgb(62, 62, 62);
+      }
+
+      p {
+        all: unset;
       }
 
       .container {
         display: flex;
         flex-direction: column;
-        height: 100vh;
+        height: 70vh;
         align-items: center;
         justify-content: center;
       }
 
-      #score {
-        margin: 30px;
-        height: 15vh;
+      .all-scores-container {
+        margin-bottom: 20px;
+        width: 300px;
+        border: 4px solid rgb(160, 160, 160);
         display: flex;
-        align-items: center;
+        flex-direction: row;
+      }
+
+      .score-container {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .high-score-container {
+        width: 110px;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .score-container p {
+        margin: 5px 10px;
+        font-weight: bold;
+      }
+
+      .high-score-container p {
+        text-align: center;
+        padding: 5px 0px;
+        font-weight: bold;
+        border-left: 4px solid rgb(160, 160, 160);
+      }
+
+      #score {
+        padding: 0px 10px;
         font: bolder normal 70px "Times New Roman";
+      }
+
+      #high-score {
+        padding: 0px 10px;
+        display: flex;
+        justify-content: end;
+        font-size: 30px;
+        font-weight: bold;
+        border-bottom: 4px solid rgb(160, 160, 160);
+        border-left: 4px solid rgb(160, 160, 160);
+      }
+
+      h1 {
+        text-align: center;
+        font-family: Tahoma, sans-serif;
+        font-weight: bolder;
+      }
+
+      a {
+        color: rgb(62, 62, 62);
+      }
+      a:hover {
+        text-decoration: none;
       }
     </style>
   </body>
@@ -44,7 +111,7 @@
     const CANVAS_STROKE_COLOR = "black";
     const SNAKE_COLOR = "lightgreen";
     const SNAKE_BORDER_COLOR = "darkgreen";
-    const GAME_SPEED = 500;
+    const GAME_SPEED = 100;
     let dx = 10;
     let dy = 0; //+10 to move down
     let foodX;
@@ -126,7 +193,7 @@
         main();
       }, GAME_SPEED);
     }
-    main();
+    // main();
 
     function changeDirection(event) {
       if (isChangingDirection) return; //don't allow changing direction again until advanceSnake() has been called after the first change in direction
@@ -191,8 +258,8 @@
       ctx.strokeRect(foodX, foodY, 10, 10);
     }
 
-    // createFood();
-    // drawFood();
+    createFood();
+    drawFood();
 
     function didGameEnd() {
       for (i = 4; i < snake.length; i++) {
