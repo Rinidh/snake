@@ -1,1 +1,2 @@
 arrange the code eg snake, const BACK_COLOR etc
+increase speed with score

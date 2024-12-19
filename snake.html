@@ -44,12 +44,13 @@
     const CANVAS_STROKE_COLOR = "black";
     const SNAKE_COLOR = "lightgreen";
     const SNAKE_BORDER_COLOR = "darkgreen";
-    const GAME_SPEED = 800;
+    const GAME_SPEED = 500;
     let dx = 10;
     let dy = 0; //+10 to move down
     let foodX;
     let foodY;
     let score = 0;
+    let isChangingDirection = false;
 
     const gameCanvas = document.getElementById("gameCanvas");
     const ctx = gameCanvas.getContext("2d");
@@ -108,6 +109,8 @@
       } else {
         snake.pop();
       }
+
+      isChangingDirection = false;
     }
 
     function main() {
@@ -126,8 +129,11 @@
     main();
 
     function changeDirection(event) {
-      const key = event.keyCode;
+      if (isChangingDirection) return; //don't allow changing direction again until advanceSnake() has been called after the first change in direction
 
+      isChangingDirection = true;
+
+      const key = event.keyCode;
       //globally fixed key codes for all pcs
       const LEFT_KEY = 37;
       const UP_KEY = 38;
