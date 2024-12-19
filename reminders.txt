@@ -1,4 +1,3 @@
-heading
 set high scores
 game over
 restarting game
